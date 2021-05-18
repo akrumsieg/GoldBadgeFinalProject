@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 namespace _02_Claims_Repository
 {
     //ClaimType enum
-    public enum ClaimType { Car, Home, Theft}
+    public enum TypeOfClaim { Car, Home, Theft}
     public class Claim
     {
         //constructors
         public Claim() { }
-        public Claim(int claimID, ClaimType typeOfClaim, string description, double claimAmount, DateTime dateOfIncident, DateTime dateOfClaim)
+        public Claim(int claimID, TypeOfClaim claimType, string description, double claimAmount, DateTime dateOfIncident, DateTime dateOfClaim)
         {
             ClaimID = claimID;
-            TypeOfClaim = typeOfClaim;
+            ClaimType = claimType;
             Description = description;
             ClaimAmount = claimAmount;
             DateOfIncident = dateOfIncident;
@@ -24,7 +24,7 @@ namespace _02_Claims_Repository
 
         //properties
         public int ClaimID { get; set; }
-        public ClaimType TypeOfClaim { get; set; }
+        public TypeOfClaim ClaimType { get; set; }
         public string Description { get; set; }
         public double ClaimAmount { get; set; }
         public DateTime DateOfIncident { get; set; }

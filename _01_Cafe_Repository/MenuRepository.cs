@@ -16,7 +16,7 @@ namespace _01_Cafe_Repository
         {
             int originalCount = _menu.Count();
             _menu.Add(item);
-            return _menu.Count() > originalCount ? true : false;
+            return _menu.Count() > originalCount;
         }
 
         //READ
