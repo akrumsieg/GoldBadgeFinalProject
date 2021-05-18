@@ -250,8 +250,8 @@ namespace _01_Cafe_Console
             //check if input is positive, whole number
             while (!inputString.All(char.IsDigit))
             {
-                Console.WriteLine("\nMenu item numbers must be a positive whole number.");
-                Console.Write("Enter menu item number: ");
+                Console.WriteLine("\nYou must enter a positive whole number.");
+                Console.Write("Enter number: ");
                 inputString = Console.ReadLine();
             }
             return int.Parse(inputString);
