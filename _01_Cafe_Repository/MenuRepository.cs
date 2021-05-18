@@ -25,14 +25,6 @@ namespace _01_Cafe_Repository
             return _menu;
         }
 
-        public MenuItem FindItemByNumber(int number)
-        {
-            foreach (MenuItem item in _menu)
-            {
-                if (item.Number == number) return item;
-            }
-            return null;
-        }
 
         //UPDATE
         public void UpdateByNumber(int number, MenuItem updatedItem)
@@ -51,10 +43,20 @@ namespace _01_Cafe_Repository
             return _menu.Remove(FindItemByNumber(number));
         }
 
+
         //helper methods
         public int ReturnListCount()
         {
             return _menu.Count();
+        }
+
+        public MenuItem FindItemByNumber(int number)
+        {
+            foreach (MenuItem item in _menu)
+            {
+                if (item.Number == number) return item;
+            }
+            return null;
         }
     }
 }
