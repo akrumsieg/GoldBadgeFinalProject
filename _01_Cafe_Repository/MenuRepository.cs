@@ -50,5 +50,11 @@ namespace _01_Cafe_Repository
         {
             return _menu.Remove(FindItemByNumber(number));
         }
+
+        //helper methods
+        public int ReturnListCount()
+        {
+            return _menu.Count();
+        }
     }
 }
