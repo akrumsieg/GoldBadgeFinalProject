@@ -12,23 +12,123 @@ namespace _01_Cafe_Console
         private readonly MenuRepository _repo = new MenuRepository();
         public void Run()
         {
+            SeedMenuList();
             bool continueRunning = true;
+            while (continueRunning)
+            {
+                Console.WriteLine("What would you like to do?\n" +
+                    "1. Add menu item\n" +
+                    "2. Display all menu items\n" +
+                    "3. Update a menu item\n" +
+                    "4. Delete a menu item\n" +
+                    "9. Exit");
 
-
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        AddMenuItem();
+                        break;
+                    case "2":
+                        DisplayAllItems();
+                        break;
+                    case "3":
+                        UpdateItem();
+                        break;
+                    case "4":
+                        DeleteItem();
+                        break;
+                    case "9":
+                        continueRunning = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input. \n" +
+                            "Please enter the number corresponding to the action you would like to do.\n" +
+                            "Ex: Type 1 and press the ENTER key");
+                        break;
+                }
+            }
         }
 
-        public void RunMenu()
+        //MENU OPTION 1
+        public void AddMenuItem()
         {
-            Console.WriteLine("What would you like to do?\n" +
-                "1. Add menu item\n" +
-                "2. Display all menu items\n" +
-                "3. Update a menu item\n" +
-                "4. Delete a menu item\n" +
-                "9. Exit");
+            Console.Clear();
+            int number = CollectAndReturnNumber();
+            string name = CollectAndReturnName();
+            string description = CollectAndReturnDescription();
+            List<string> ingredients = CollectAndReturnIngredientList();
+            double price = CollectAndReturnPrice();
 
-            //SWITCH CASE
+            MenuItem item = new MenuItem(number, name, description, ingredients, price);
+            if (_repo.AddMenuItem(item))
+            {
+                Console.WriteLine("Item was added successfully.\n" +
+                    "Press any key to return to main menu.");
+                Console.ReadKey();
+                Console.Clear();
+            }
         }
 
+        //MENU OPTION 2
+        public void DisplayAllItems()
+        {
+            Console.Clear();
+            foreach (MenuItem item in _repo.ReturnMenuList())
+            {
+                DisplayItem(item);
+            }
+        }
+
+        //MENU OPTION 3
+        public void UpdateItem()
+        {
+            DisplayAllItems();
+            Console.WriteLine("Enter the number of the item you would like to update: ");
+            int originalItemNumber = CollectAndReturnPosWholeNum();
+            bool isNull = true;
+            while(isNull)
+            {
+                if (_repo.FindItemByNumber(originalItemNumber) == null)
+                {
+                    Console.WriteLine("That menu item number does not currently exist.\n" +
+                        "Please enter the number of an existing menu item to update.");
+                    originalItemNumber = CollectAndReturnPosWholeNum();
+                }
+                else isNull = false;
+            }
+            MenuItem updatedItem = new MenuItem();
+            updatedItem.Number = CollectAndReturnNumber();
+            updatedItem.Name = CollectAndReturnName();
+            updatedItem.Description = CollectAndReturnDescription();
+            updatedItem.Ingredients = CollectAndReturnIngredientList();
+            updatedItem.Price = CollectAndReturnPrice();
+            _repo.UpdateByNumber(originalItemNumber, updatedItem);
+            Console.WriteLine("Item was updated successfully.\n" +
+                    "Press any key to return to main menu.");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        //MENU OPTION 4
+        public void DeleteItem()
+        {
+            DisplayAllItems();
+            Console.WriteLine("Enter the number of the item you would like to DELETE: ");
+            int itemNumToDelete = CollectAndReturnPosWholeNum();
+            Console.WriteLine("Are you sure you want to DELETE this item: ");
+            DisplayItem(_repo.FindItemByNumber(itemNumToDelete));
+            string yOrN = CollectAndReturnYOrN();
+            if (yOrN == "y")
+            {
+                if (_repo.DeleteByNumber(itemNumToDelete))
+                {
+                    Console.WriteLine("Item was deleted successfully.\n" +
+                    "Press any key to return to main menu.");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
         public int CollectAndReturnNumber()
         {
         AssignNumber:
@@ -105,20 +205,6 @@ namespace _01_Cafe_Console
             return price;
         }
 
-        public void AddMenuItem()
-        {
-            int number = CollectAndReturnNumber();
-            string name = CollectAndReturnName();
-            string description = CollectAndReturnDescription();
-            List<string> ingredients = CollectAndReturnIngredientList();
-            double price = CollectAndReturnPrice();
-
-            MenuItem item = new MenuItem(number, name, description, ingredients, price);
-            if (_repo.AddMenuItem(item))
-            {
-                Console.WriteLine("Item was added successfully.");
-            }
-        }
 
         public void DisplayItem(MenuItem item)
         {
@@ -129,45 +215,6 @@ namespace _01_Cafe_Console
                 $"\tIngredients: {item.ReturnIngredientsListAsString()}\n" +
                 $"\tPrice: ${item.Price}\n" +
                 $"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        }
-
-        public void DisplayAllItems()
-        {
-            foreach (MenuItem item in _repo.ReturnMenuList())
-            {
-                DisplayItem(item);
-            }
-        }
-
-        public void UpdateItem()
-        {
-            DisplayAllItems();
-            Console.WriteLine("Enter the number of the item you would like to update: ");
-            int originalItemNumber = CollectAndReturnPosWholeNum();
-            MenuItem updatedItem = new MenuItem();
-            updatedItem.Number = CollectAndReturnNumber();
-            updatedItem.Name = CollectAndReturnName();
-            updatedItem.Description = CollectAndReturnDescription();
-            updatedItem.Ingredients = CollectAndReturnIngredientList();
-            updatedItem.Price = CollectAndReturnPrice();
-            _repo.UpdateByNumber(originalItemNumber, updatedItem);
-        }
-
-        public void DeleteItem()
-        {
-            DisplayAllItems();
-            Console.WriteLine("Enter the number of the item you would like to DELETE: ");
-            int itemNumToDelete = CollectAndReturnPosWholeNum();
-            Console.WriteLine("Are you sure you want to DELETE this item: ");
-            DisplayItem(_repo.FindItemByNumber(itemNumToDelete));
-            string yOrN = CollectAndReturnYOrN();
-            if (yOrN == "y")
-            {
-                if (_repo.DeleteByNumber(itemNumToDelete))
-                {
-                    Console.WriteLine("Item was deleted successfully.");
-                }
-            }
         }
 
         public string CollectAndReturnYOrN()
@@ -204,7 +251,7 @@ namespace _01_Cafe_Console
                 001,
                 "Grilled Cheese Sandwich",
                 "The classic toasted cheese sandwich with a side of tomato soup",
-                 new List<string>{ "bread", "cheese", "butter" },
+                 new List<string> { "bread", "cheese", "butter" },
                 7.99));
             _repo.AddMenuItem(new MenuItem(
                 002,
