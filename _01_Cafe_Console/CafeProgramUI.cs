@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _01_Cafe_Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace _01_Cafe_Console
 {
     public class CafeProgramUI
     {
-        //MenuRepository _repo = new MenuRepository();
+        private readonly MenuRepository _repo = new MenuRepository();
         public void Run()
         {
             bool continueRunning = true;
@@ -30,20 +31,28 @@ namespace _01_Cafe_Console
 
         public int CollectAndReturnNumber()
         {
+        AssignNumber:
             Console.WriteLine("Enter menu item number: ");
-            string inputString = Console.ReadLine();
-            while (!inputString.All(char.IsDigit))
+            //string inputString = Console.ReadLine();
+            //check if input is positive, whole number
+            //while (!inputString.All(char.IsDigit))
+            //{
+            //    Console.WriteLine("Menu item numbers must be a positive whole number.");
+            //    Console.WriteLine("Enter menu item number: ");
+            //    inputString = Console.ReadLine();
+            //}
+            //int inputInt = int.Parse(inputString);
+            //check if item number is already assigned
+            int inputInt = CollectAndReturnPosWholeNum();
+            if (_repo.FindItemByNumber(inputInt) != null)
             {
-                Console.WriteLine("Menu item numbers must be a positive whole number.");
-                Console.WriteLine("Enter menu item number: ");
-                inputString = Console.ReadLine();
+                Console.WriteLine("That item number is already assigned. Please enter an available number.");
+                goto AssignNumber;
             }
-            int inputInt = int.Parse(inputString);
-        }
-
-        public bool CheckNumAvailability(int number)
-        {
-            foreach ()
+            else
+            {
+                return inputInt;
+            }
         }
 
         public string CollectAndReturnName()
@@ -75,20 +84,10 @@ namespace _01_Cafe_Console
                 {
                     Console.WriteLine('\t' + ingredient);
                 }
-                bool isYesOrNo = false;
-                while (!isYesOrNo)
+                string yOrN = CollectAndReturnYOrN();
+                if (yOrN == "y")
                 {
-                    Console.WriteLine("Enter y for yes or n for no: ");
-                    string inputYesOrNo = Console.ReadLine().ToLower();
-                    if (inputYesOrNo == "y")
-                    {
-                        isYesOrNo = true;
-                        confirmed = true;
-                    }
-                    else if (inputYesOrNo == "n")
-                    {
-                        isYesOrNo = true;
-                    }
+                    confirmed = true;
                 }
             }
             return ingredients;
@@ -114,7 +113,111 @@ namespace _01_Cafe_Console
             List<string> ingredients = CollectAndReturnIngredientList();
             double price = CollectAndReturnPrice();
 
+            MenuItem item = new MenuItem(number, name, description, ingredients, price);
+            if (_repo.AddMenuItem(item))
+            {
+                Console.WriteLine("Item was added successfully.");
+            }
+        }
 
+        public void DisplayItem(MenuItem item)
+        {
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                $"\tNumber: {item.Number}\n" +
+                $"\tName: {item.Name}\n" +
+                $"\tDescription: {item.Description}\n" +
+                $"\tIngredients: {item.ReturnIngredientsListAsString()}\n" +
+                $"\tPrice: ${item.Price}\n" +
+                $"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        }
+
+        public void DisplayAllItems()
+        {
+            foreach (MenuItem item in _repo.ReturnMenuList())
+            {
+                DisplayItem(item);
+            }
+        }
+
+        public void UpdateItem()
+        {
+            DisplayAllItems();
+            Console.WriteLine("Enter the number of the item you would like to update: ");
+            int originalItemNumber = CollectAndReturnPosWholeNum();
+            MenuItem updatedItem = new MenuItem();
+            updatedItem.Number = CollectAndReturnNumber();
+            updatedItem.Name = CollectAndReturnName();
+            updatedItem.Description = CollectAndReturnDescription();
+            updatedItem.Ingredients = CollectAndReturnIngredientList();
+            updatedItem.Price = CollectAndReturnPrice();
+            _repo.UpdateByNumber(originalItemNumber, updatedItem);
+        }
+
+        public void DeleteItem()
+        {
+            DisplayAllItems();
+            Console.WriteLine("Enter the number of the item you would like to DELETE: ");
+            int itemNumToDelete = CollectAndReturnPosWholeNum();
+            Console.WriteLine("Are you sure you want to DELETE this item: ");
+            DisplayItem(_repo.FindItemByNumber(itemNumToDelete));
+            string yOrN = CollectAndReturnYOrN();
+            if (yOrN == "y")
+            {
+                if (_repo.DeleteByNumber(itemNumToDelete))
+                {
+                    Console.WriteLine("Item was deleted successfully.");
+                }
+            }
+        }
+
+        public string CollectAndReturnYOrN()
+        {
+            bool isYesOrNo = false;
+            while (!isYesOrNo)
+            {
+                Console.WriteLine("Enter y for yes or n for no: ");
+                string inputYesOrNo = Console.ReadLine().ToLower();
+                if (inputYesOrNo == "y" || inputYesOrNo == "n")
+                {
+                    return inputYesOrNo;
+                }
+            }
+            return null;
+        }
+
+        public int CollectAndReturnPosWholeNum()
+        {
+            string inputString = Console.ReadLine();
+            //check if input is positive, whole number
+            while (!inputString.All(char.IsDigit))
+            {
+                Console.WriteLine("Menu item numbers must be a positive whole number.");
+                Console.WriteLine("Enter menu item number: ");
+                inputString = Console.ReadLine();
+            }
+            return int.Parse(inputString);
+        }
+
+        public void SeedMenuList()
+        {
+            _repo.AddMenuItem(new MenuItem(
+                001,
+                "Grilled Cheese Sandwich",
+                "The classic toasted cheese sandwich with a side of tomato soup",
+                 new List<string>{ "bread", "cheese", "butter" },
+                7.99));
+            _repo.AddMenuItem(new MenuItem(
+                002,
+                "Broccoli Cheddar Soup",
+                "A hearty bowl of soup with a mini loaf of sourdough bread",
+                new List<string> { "broccoli", "cheddar cheese", "milk", "other stuff" },
+                6.99));
+            _repo.AddMenuItem(new MenuItem(
+                003,
+                "Bagel & Cream Cheese",
+                "Your choice of a plain, blueberry, or everything bagel",
+                new List<string> { "flour", "water", "yeast", "everything else" },
+                3.49));
         }
     }
 }

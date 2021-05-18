@@ -8,7 +8,8 @@ namespace _01_Cafe_Repository
 {
     public class MenuItem
     {
-        //overloaded constructor
+        //constructors
+        public MenuItem() { }
         public MenuItem(int number, string name, string description, List<string> ingredients, double price)
         {
             Number = number;
@@ -24,5 +25,17 @@ namespace _01_Cafe_Repository
         public string Description { get; set; }
         public List<string> Ingredients { get; set; }
         public double Price { get; set; }
+
+        //helper methods
+        public string ReturnIngredientsListAsString()
+        {
+            string ingredientsString = "";
+            for (int i = 0; i < Ingredients.Count(); i++)
+            {
+                if (i == 0) ingredientsString += Ingredients[i];
+                else ingredientsString += $", {Ingredients[i]}";
+            }
+            return ingredientsString;
+        }
     }
 }
