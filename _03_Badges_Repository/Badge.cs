@@ -20,5 +20,6 @@ namespace _03_Badges_Repository
         public List<string> DoorAccessList { get; set; }
 
         //helper methods
+
     }
 }

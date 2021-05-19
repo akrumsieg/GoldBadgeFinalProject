@@ -73,5 +73,13 @@ namespace _00_Helper_Methods
             Console.ReadKey();
             Console.Clear();
         }
+
+        public void DisplayStringsList(List<string> list)
+        {
+            foreach (string item in list)
+            {
+                Console.WriteLine($"\t{item}");
+            }
+        }
     }
 }

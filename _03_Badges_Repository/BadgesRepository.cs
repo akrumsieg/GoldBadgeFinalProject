@@ -40,6 +40,20 @@ namespace _03_Badges_Repository
         }
 
         //helper methods
-        
+        public string ReturnDoorAccessListAsString(int id)
+        {
+            string listAsString = "";
+            for (int i = 0; i < _badgeDic[id].Count(); i++)
+            {
+                if (i == 0) listAsString += _badgeDic[id][i];
+                else listAsString += $", {_badgeDic[id][i]}";
+            }
+            return listAsString;
+        }
+
+        public List<string> ReturnDoorAccessList(int id)
+        {
+            return _badgeDic[id];
+        }
     }
 }
