@@ -37,7 +37,7 @@ namespace _03_Badges_Console
                         DisplayAllBadges();
                         break;
                     case "4":
-                        //RemoveAllAccessFromBadge();
+                        RemoveAllAccessFromBadge();
                         break;
                     case "9":
                         continueRunning = false;
@@ -85,13 +85,13 @@ namespace _03_Badges_Console
                 {
                     case "1":
                         DisplayDoorAccess(badgeToUpdate);
-                        Console.Write("Which door would you like to remove? ");
+                        Console.Write("\nWhich door would you like to remove? ");
                         string doorToRemove = Console.ReadLine();
                         if (!_repo.ReturnDoorAccessList(badgeToUpdate).Contains(doorToRemove))
                         {
-                            Console.Write($"Badge #{badgeToUpdate} does not currently have access to door \'{doorToRemove}\'.\n" +
+                            Console.Write($"\nBadge #{badgeToUpdate} does not currently have access to door \'{doorToRemove}\'.\n" +
                                 $"Door access remains unchanged.\n" +
-                                $"Press any key to continue.\n");
+                                $"Press any key to continue.");
                             Console.ReadKey();
                         }
                         else
@@ -99,20 +99,20 @@ namespace _03_Badges_Console
                             List<string> updatedList = _repo.ReturnDoorAccessList(badgeToUpdate);
                             updatedList.Remove(doorToRemove);
                             _repo.UpdateBadgeAccess(badgeToUpdate, updatedList);
-                            Console.WriteLine($"Access to door \'{doorToRemove}\' was removed.\n" +
+                            Console.WriteLine($"\nAccess to door \'{doorToRemove}\' was removed.\n" +
                                 $"Would you like to make further updates to badge #{badgeToUpdate}?");
                             if (helperMethods.CollectAndReturnYOrN() == "n") finishedUpdating = true;
                         }
                         break;
                     case "2":
                         DisplayDoorAccess(badgeToUpdate);
-                        Console.Write("Enter door name to add access: ");
+                        Console.Write("\nEnter door name to add access: ");
                         string doorToAdd = Console.ReadLine();
                         if (_repo.ReturnDoorAccessList(badgeToUpdate).Contains(doorToAdd))
                         {
-                            Console.Write($"Badge #{badgeToUpdate} already has access to door \'{doorToAdd}\'.\n" +
+                            Console.Write($"\nBadge #{badgeToUpdate} already has access to door \'{doorToAdd}\'.\n" +
                                 $"Door access remains unchanged.\n" +
-                                $"Press any key to continue.\n");
+                                $"Press any key to continue.");
                             Console.ReadKey();
                         }
                         else
@@ -120,7 +120,7 @@ namespace _03_Badges_Console
                             List<string> updatedList = _repo.ReturnDoorAccessList(badgeToUpdate);
                             updatedList.Add(doorToAdd);
                             _repo.UpdateBadgeAccess(badgeToUpdate, updatedList);
-                            Console.WriteLine($"Access to door \'{doorToAdd}\' was added.\n" +
+                            Console.WriteLine($"\nAccess to door \'{doorToAdd}\' was added.\n" +
                                 $"Would you like to make further updates to badge #{badgeToUpdate}?");
                             if (helperMethods.CollectAndReturnYOrN() == "n") finishedUpdating = true;
                         }
@@ -130,7 +130,8 @@ namespace _03_Badges_Console
                         break;
                     default:
                         Console.WriteLine("Invalid input.\n" +
-                            "Please type 1, 2, or 3 and press ENTER.\n");
+                            "Press any key to continue.\n");
+                        Console.ReadKey();
                         break;
                 }
             }
@@ -153,7 +154,7 @@ namespace _03_Badges_Console
         }
 
         //MENU OPTION 4 - remove all access from badge
-        public void RemoveAllAccess(int id)
+        public void RemoveAllAccessFromBadge()
         {
             DisplayAllBadges();
             Console.Write("\nEnter badge ID for which you would like to remove ALL door access: ");
@@ -220,6 +221,7 @@ namespace _03_Badges_Console
             Console.Clear();
             Console.WriteLine($"Badge #{id} currently has access to these doors:");
             helperMethods.DisplayStringsList(_repo.ReturnBadgeDictionary()[id]);
+            Console.WriteLine("");
         }
 
         public void DisplayOneBadge(int id)

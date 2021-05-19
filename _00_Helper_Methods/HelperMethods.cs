@@ -78,7 +78,7 @@ namespace _00_Helper_Methods
         {
             foreach (string item in list)
             {
-                Console.WriteLine($"\t{item}");
+                Console.WriteLine($"\t> {item}");
             }
         }
     }
