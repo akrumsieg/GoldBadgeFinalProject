@@ -20,7 +20,7 @@ namespace _03_Badges_Repository
         }
 
         //READ
-        public Dictionary<int, List<string>> ReturnDictionary()
+        public Dictionary<int, List<string>> ReturnBadgeDictionary()
         {
             return _badgeDic;
         }
@@ -38,7 +38,6 @@ namespace _03_Badges_Repository
             if (_badgeDic[numToRemove].Count() == 0) return true;
             else return false;
         }
-
 
         //helper methods
         
