@@ -54,5 +54,12 @@ namespace _02_Claims_Repository
             }
             return null;
         }
+
+        public int ReturnQueueCount()
+        {
+            return _claimsQueue.Count();
+        }
+
+
     }
 }

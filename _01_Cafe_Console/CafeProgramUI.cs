@@ -151,6 +151,8 @@ namespace _01_Cafe_Console
             }
             Console.Clear();
         }
+
+        //helper methods
         public int CollectAndReturnNumber()
         {
         AssignNumber:

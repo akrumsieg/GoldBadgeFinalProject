@@ -50,5 +50,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\_00_Helper_Methods\_00_Helper_Methods.csproj">
+      <Project>{3558e1b9-6f2b-4789-b766-0cd6da7efb39}</Project>
+      <Name>_00_Helper_Methods</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\_02_Claims_Repository\_02_Claims_Repository.csproj">
+      <Project>{463D614D-99AD-4A9D-AF49-9CCCACD3F1C7}</Project>
+      <Name>_02_Claims_Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -21,6 +21,25 @@ namespace _00_Helper_Methods
             return int.Parse(inputString);
         }
 
+        public double CollectAndReturnDollarAmount()
+        {
+        Beginning:
+            string inputString = Console.ReadLine();
+            if (!Double.TryParse(inputString, out double inputDouble))
+            {
+                Console.Write("\nPlease enter a positive number: ");
+                goto Beginning;
+            }
+            if (inputDouble < 0)
+            {
+                Console.Write("\nPlease enter a positive number: ");
+                goto Beginning;
+            }
+            string twoDecimalString = inputDouble.ToString("F");
+            double twoDecimalDouble = Convert.ToDouble(twoDecimalString);
+            return twoDecimalDouble;
+        }
+
         public string CollectAndReturnYOrN()
         {
             bool isYesOrNo = false;
@@ -34,6 +53,25 @@ namespace _00_Helper_Methods
                 }
             }
             return null;
+        }
+
+        public DateTime CollectAndReturnDate()
+        {
+        Beginning:
+            string inputString = Console.ReadLine();
+            if (!DateTime.TryParse(inputString, out DateTime inputDate))
+            {
+                Console.Write("Please enter a valid date (yyyy/mm/dd): ");
+                goto Beginning;
+            }
+            return inputDate;
+        }
+
+        public void ReturnToMenu()
+        {
+            Console.Write("\nPress any key to return to the menu.");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

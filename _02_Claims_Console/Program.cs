@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace _02_Claims_Console
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+            ClaimsConsoleUI ui = new ClaimsConsoleUI();
+            ui.Run();
         }
     }
 }
