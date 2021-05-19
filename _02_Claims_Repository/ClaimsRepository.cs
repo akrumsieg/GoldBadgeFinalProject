@@ -59,7 +59,5 @@ namespace _02_Claims_Repository
         {
             return _claimsQueue.Count();
         }
-
-
     }
 }
