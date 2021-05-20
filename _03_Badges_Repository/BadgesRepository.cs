@@ -50,10 +50,5 @@ namespace _03_Badges_Repository
             }
             return listAsString;
         }
-
-        public List<string> ReturnDoorAccessList(int id)
-        {
-            return _badgeDic[id];
-        }
     }
 }

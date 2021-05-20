@@ -96,7 +96,7 @@ namespace _03_Badges_Console
                         DisplayDoorAccess(badgeToUpdate);
                         Console.Write("\nWhich door would you like to remove? ");
                         string doorToRemove = Console.ReadLine();
-                        if (!_repo.ReturnDoorAccessList(badgeToUpdate).Contains(doorToRemove))
+                        if (!_repo.ReturnBadgeDictionary()[badgeToUpdate].Contains(doorToRemove))
                         {
                             Console.Write($"\nBadge #{badgeToUpdate} does not currently have access to door \'{doorToRemove}\'.\n" +
                                 $"Door access remains unchanged.\n" +
@@ -105,7 +105,7 @@ namespace _03_Badges_Console
                         }
                         else
                         {
-                            List<string> updatedList = _repo.ReturnDoorAccessList(badgeToUpdate);
+                            List<string> updatedList = _repo.ReturnBadgeDictionary()[badgeToUpdate];
                             updatedList.Remove(doorToRemove);
                             _repo.UpdateBadgeAccess(badgeToUpdate, updatedList);
                             Console.WriteLine($"\nAccess to door \'{doorToRemove}\' was removed.\n" +
@@ -117,7 +117,7 @@ namespace _03_Badges_Console
                         DisplayDoorAccess(badgeToUpdate);
                         Console.Write("\nEnter door name to add access: ");
                         string doorToAdd = Console.ReadLine();
-                        if (_repo.ReturnDoorAccessList(badgeToUpdate).Contains(doorToAdd))
+                        if (_repo.ReturnBadgeDictionary()[badgeToUpdate].Contains(doorToAdd))
                         {
                             Console.Write($"\nBadge #{badgeToUpdate} already has access to door \'{doorToAdd}\'.\n" +
                                 $"Door access remains unchanged.\n" +
@@ -126,7 +126,7 @@ namespace _03_Badges_Console
                         }
                         else
                         {
-                            List<string> updatedList = _repo.ReturnDoorAccessList(badgeToUpdate);
+                            List<string> updatedList = _repo.ReturnBadgeDictionary()[badgeToUpdate];
                             updatedList.Add(doorToAdd);
                             _repo.UpdateBadgeAccess(badgeToUpdate, updatedList);
                             Console.WriteLine($"\nAccess to door \'{doorToAdd}\' was added.\n" +
@@ -175,7 +175,13 @@ namespace _03_Badges_Console
                 idToStrip = helperMethods.CollectAndReturnPosWholeNum();
             }
             Console.Clear();
-            Console.WriteLine($"ARE YOU SURE YOU WANT TO REMOVE ALL DOOR ACCESS FROM BADGE #{idToStrip}?");
+            if (_repo.ReturnDoorAccessListAsString(idToStrip) == "")
+            {
+                Console.WriteLine($"Badge #{idToStrip} currently does not have access to any doors.\n" +
+                    "Door access remains unchanged.");
+                goto Menu;
+            }
+                Console.WriteLine($"ARE YOU SURE YOU WANT TO REMOVE ALL DOOR ACCESS FROM BADGE #{idToStrip}?");
             if (helperMethods.CollectAndReturnYOrN() == "y")
             {
                 _repo.RemoveAllAccess(idToStrip);
@@ -187,6 +193,7 @@ namespace _03_Badges_Console
                 Console.Clear();
                 Console.WriteLine($"Badge #{idToStrip} door access remains unchanged.");
             }
+            Menu:
             helperMethods.ReturnToMenu();
         }
 

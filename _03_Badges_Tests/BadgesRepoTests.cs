@@ -43,8 +43,13 @@ namespace _03_Badges_Tests
         [TestMethod]
         public void RemoveAllAccess_ShouldReturnTrue()
         {
-            ;
             Assert.IsTrue(_repo.RemoveAllAccess(1));
+        }
+
+        [TestMethod]
+        public void ReturnDoorAccessListAsString_ShouldReturnCorrectString()
+        {
+            Assert.AreEqual(_repo.ReturnDoorAccessListAsString(1), "C1, C2");
         }
     }
 }
