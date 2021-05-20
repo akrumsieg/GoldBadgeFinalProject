@@ -9,6 +9,7 @@ namespace _01_Cafe_Console
 {
     public class CafeProgramUI
     {
+        _00_Helper_Methods.HelperMethods helperMethods = new _00_Helper_Methods.HelperMethods();
         private readonly MenuRepository _repo = new MenuRepository();
         public void Run()
         {
@@ -63,10 +64,8 @@ namespace _01_Cafe_Console
             MenuItem item = new MenuItem(number, name, description, ingredients, price);
             if (_repo.AddMenuItem(item))
             {
-                Console.WriteLine("\nItem was added successfully.\n" +
-                    "Press any key to return to main menu.");
-                Console.ReadKey();
-                Console.Clear();
+                Console.WriteLine("\nItem was added successfully.");
+                helperMethods.ReturnToMenu();
             }
         }
 
@@ -76,10 +75,8 @@ namespace _01_Cafe_Console
             Console.Clear();
             if (_repo.ReturnListCount() == 0)
             {
-                Console.WriteLine("There are currently no items on the menu.\n" +
-                    "Press any key to return to the main menu.");
-                Console.ReadKey();
-                Console.Clear();
+                Console.WriteLine("There are currently no items on the menu.");
+                helperMethods.ReturnToMenu();
                 return true;
             }
             foreach (MenuItem item in _repo.ReturnMenuList())
@@ -94,7 +91,7 @@ namespace _01_Cafe_Console
         {
             if (DisplayAllItems()) return;
             Console.Write("\nEnter the number of the item you would like to update: ");
-            int originalItemNumber = CollectAndReturnPosWholeNum();
+            int originalItemNumber = helperMethods.CollectAndReturnPosWholeNum();
             bool isNull = true;
             while (isNull)
             {
@@ -102,7 +99,7 @@ namespace _01_Cafe_Console
                 {
                     Console.Write("\nThat menu item number does not currently exist.\n" +
                         "Please enter the number of an existing menu item to update: ");
-                    originalItemNumber = CollectAndReturnPosWholeNum();
+                    originalItemNumber = helperMethods.CollectAndReturnPosWholeNum();
                 }
                 else isNull = false;
             }
@@ -113,10 +110,8 @@ namespace _01_Cafe_Console
             updatedItem.Ingredients = CollectAndReturnIngredientList();
             updatedItem.Price = CollectAndReturnPrice();
             _repo.UpdateByNumber(originalItemNumber, updatedItem);
-            Console.WriteLine("\nItem was updated successfully.\n" +
-                    "Press any key to return to main menu.");
-            Console.ReadKey();
-            Console.Clear();
+            Console.WriteLine("\nItem was updated successfully.");
+            helperMethods.ReturnToMenu();
         }
 
         //MENU OPTION 4
@@ -124,7 +119,7 @@ namespace _01_Cafe_Console
         {
             if (DisplayAllItems()) return;
             Console.Write("\nEnter the number of the item you would like to DELETE: ");
-            int itemNumToDelete = CollectAndReturnPosWholeNum();
+            int itemNumToDelete = helperMethods.CollectAndReturnPosWholeNum();
             bool isNull = true;
             while (isNull)
             {
@@ -132,21 +127,20 @@ namespace _01_Cafe_Console
                 {
                     Console.Write("\nThat menu item number does not currently exist.\n" +
                         "Please enter the number of an existing menu item to DELETE: ");
-                    itemNumToDelete = CollectAndReturnPosWholeNum();
+                    itemNumToDelete = helperMethods.CollectAndReturnPosWholeNum();
                 }
                 else isNull = false;
             }
             Console.Clear();
             Console.WriteLine("\nAre you sure you want to DELETE this item: ");
             DisplayItem(_repo.FindItemByNumber(itemNumToDelete));
-            string yOrN = CollectAndReturnYOrN();
+            string yOrN = helperMethods.CollectAndReturnYOrN();
             if (yOrN == "y")
             {
                 if (_repo.DeleteByNumber(itemNumToDelete))
                 {
-                    Console.WriteLine("\nItem was deleted successfully.\n" +
-                    "Press any key to return to main menu.");
-                    Console.ReadKey();
+                    Console.WriteLine("\nItem was deleted successfully.");
+                    helperMethods.ReturnToMenu();
                 }
             }
             Console.Clear();
@@ -157,7 +151,7 @@ namespace _01_Cafe_Console
         {
         AssignNumber:
             Console.Write("\nEnter menu item number: ");
-            int inputInt = CollectAndReturnPosWholeNum();
+            int inputInt = helperMethods.CollectAndReturnPosWholeNum();
             if (_repo.FindItemByNumber(inputInt) != null)
             {
                 Console.Write("\nThat item number is already assigned. Please enter an available number: ");
@@ -198,7 +192,7 @@ namespace _01_Cafe_Console
                 {
                     Console.WriteLine('\t' + ingredient);
                 }
-                string yOrN = CollectAndReturnYOrN();
+                string yOrN = helperMethods.CollectAndReturnYOrN();
                 if (yOrN == "y")
                 {
                     confirmed = true;
@@ -210,13 +204,7 @@ namespace _01_Cafe_Console
         public double CollectAndReturnPrice()
         {
             Console.Write("\nEnter the price for this item: ");
-            bool isNumber = double.TryParse(Console.ReadLine(), out double price);
-            while (!isNumber)
-            {
-                Console.Write("\nPlease enter a number: ");
-                isNumber = double.TryParse(Console.ReadLine(), out price);
-            }
-            return price;
+            return helperMethods.CollectAndReturnDollarAmount();
         }
 
 
@@ -229,34 +217,6 @@ namespace _01_Cafe_Console
                 $"\tIngredients: {item.ReturnIngredientsListAsString()}\n" +
                 $"\tPrice: ${item.Price}\n" +
                 $"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        }
-
-        public string CollectAndReturnYOrN()
-        {
-            bool isYesOrNo = false;
-            while (!isYesOrNo)
-            {
-                Console.Write("\nEnter y for yes or n for no: ");
-                string inputYesOrNo = Console.ReadLine().ToLower();
-                if (inputYesOrNo == "y" || inputYesOrNo == "n")
-                {
-                    return inputYesOrNo;
-                }
-            }
-            return null;
-        }
-
-        public int CollectAndReturnPosWholeNum()
-        {
-            string inputString = Console.ReadLine();
-            //check if input is positive, whole number
-            while (!inputString.All(char.IsDigit))
-            {
-                Console.WriteLine("\nYou must enter a positive whole number.");
-                Console.Write("Enter number: ");
-                inputString = Console.ReadLine();
-            }
-            return int.Parse(inputString);
         }
 
         public void SeedMenuList()
