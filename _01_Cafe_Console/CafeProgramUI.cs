@@ -250,7 +250,7 @@ namespace _01_Cafe_Console
                 $"\tName: {item.Name}\n" +
                 $"\tDescription: {item.Description}\n" +
                 $"\tIngredients: {item.ReturnIngredientsListAsString()}\n" +
-                $"\tPrice: ${item.Price}\n" +
+                $"\tPrice: ${item.Price:#,0.00}\n" +
                 $"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
 

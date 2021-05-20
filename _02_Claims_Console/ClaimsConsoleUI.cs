@@ -179,9 +179,9 @@ namespace _02_Claims_Console
                 $"\tID: {claim.ClaimID}\n" +
                 $"\tType: {claim.ClaimType}\n" +
                 $"\tDescription: {claim.Description}\n" +
-                $"\tAmount: ${claim.ClaimAmount}\n" +
-                $"\tDate of Incident: {claim.DateOfIncident}\n" +
-                $"\tDate of Claim: {claim.DateOfClaim}\n" +
+                $"\tAmount: ${claim.ClaimAmount:#,0.00}\n" +
+                $"\tDate of Incident: {claim.DateOfIncident:MM/dd/yyyy}\n" +
+                $"\tDate of Claim: {claim.DateOfClaim:MM/dd/yyyy}\n" +
                 $"\tClaim Submitted on Time: {claim.IsValid}\n" +
                 $"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
