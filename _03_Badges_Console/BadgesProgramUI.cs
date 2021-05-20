@@ -35,6 +35,7 @@ namespace _03_Badges_Console
                         break;
                     case "3":
                         DisplayAllBadges();
+                        helperMethods.ReturnToMenu();
                         break;
                     case "4":
                         RemoveAllAccessFromBadge();
@@ -84,6 +85,14 @@ namespace _03_Badges_Console
                 switch (Console.ReadLine())
                 {
                     case "1":
+                        if (_repo.ReturnDoorAccessListAsString(badgeToUpdate) == "")
+                        {
+                            Console.WriteLine($"Badge #{badgeToUpdate} currently does not have access to any doors.\n" +
+                                "Door access remains unchanged.\n" +
+                                "Press any key to continue.");
+                            Console.ReadKey();
+                            break;
+                        }
                         DisplayDoorAccess(badgeToUpdate);
                         Console.Write("\nWhich door would you like to remove? ");
                         string doorToRemove = Console.ReadLine();
