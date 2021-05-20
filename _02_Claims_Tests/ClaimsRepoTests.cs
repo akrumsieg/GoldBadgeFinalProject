@@ -45,9 +45,9 @@ namespace _02_Claims_Tests
         }
 
         [TestMethod]
-        public void UpdateClaimByNumber_ShouldReturnUpdatedValue()
+        public void UpdateClaim_ShouldReturnUpdatedValue()
         {
-            _repo.UpdateClaimByNumber(1, _claim2);
+            _repo.UpdateClaim(_claim1, _claim2);
             Assert.AreEqual(2, _claim2.ClaimID);
         }
 

@@ -104,7 +104,7 @@ namespace _01_Cafe_Console
                 else isNull = false;
             }
             MenuItem originalItem = _repo.FindItemByNumber(originalItemNumber);
-            MenuItem updatedItem = _repo.FindItemByNumber(originalItemNumber);
+            MenuItem updatedItem = originalItem;
             bool finishedUpdating = false;
             while (!finishedUpdating)
             {
@@ -137,8 +137,14 @@ namespace _01_Cafe_Console
                     case "9":
                         finishedUpdating = true;
                         break;
+                    default:
+                        Console.WriteLine("\nInvalid input.\n" +
+                            "Please enter 1, 2, 3, 4, 5, or 9.\n" +
+                            "Press any key to continue.");
+                        Console.ReadKey();
+                        break;
                 }
-                _repo.UpdatedItem(originalItem, updatedItem);
+                _repo.UpdateItem(originalItem, updatedItem);
             }
             helperMethods.ReturnToMenu();
         }

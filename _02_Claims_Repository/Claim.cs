@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace _02_Claims_Repository
 {
     //ClaimType enum
-    public enum TypeOfClaim { Car, Home, Theft}
+    public enum TypeOfClaim { Car = 1, Home, Theft}
     public class Claim
     {
         //constructors

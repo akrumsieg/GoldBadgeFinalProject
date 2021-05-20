@@ -27,7 +27,7 @@ namespace _01_Cafe_Repository
 
 
         //UPDATE
-        public void UpdatedItem(MenuItem originalItem, MenuItem updatedItem)
+        public void UpdateItem(MenuItem originalItem, MenuItem updatedItem)
         {
             originalItem.Number = updatedItem.Number;
             originalItem.Name = updatedItem.Name;

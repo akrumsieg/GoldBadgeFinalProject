@@ -123,20 +123,56 @@ namespace _02_Claims_Console
                 }
                 else isNull = false;
             }
-            Claim updatedClaim = new Claim(
-                CollectAndReturnID(),
-                CollectAndReturnClaimType(),
-                CollectAndReturnDescription(),
-                CollectAndReturnClaimAmount(),
-                CollectAndReturnDateOfIncident(),
-                CollectAndReturnDateOfClaim());
-            _repo.UpdateClaimByNumber(originalID, updatedClaim);
-            Console.Clear();
-            Console.WriteLine("Claim was updated successfully.");
+            Claim originalClaim = _repo.FindClaimByNumber(originalID);
+            Claim updatedClaim = originalClaim;
+            bool finishedUpdating = false;
+            while (!finishedUpdating)
+            {
+                Console.Clear();
+                DisplayOneClaim(originalClaim);
+                Console.WriteLine("Choose a piece of information you would like to update: \n" +
+                    "1. Claim ID\n" +
+                    "2. Claim type\n" +
+                    "3. Claim description\n" +
+                    "4. Claim amount\n" +
+                    "5. Date of incident\n" +
+                    "6. Date of claim\n" +
+                    "9. No more updates");
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        updatedClaim.ClaimID = CollectAndReturnID();
+                        break;
+                    case "2":
+                        updatedClaim.ClaimType = CollectAndReturnClaimType();
+                        break;
+                    case "3":
+                        updatedClaim.Description = CollectAndReturnDescription();
+                        break;
+                    case "4":
+                        updatedClaim.ClaimAmount = CollectAndReturnClaimAmount();
+                        break;
+                    case "5":
+                        updatedClaim.DateOfIncident = CollectAndReturnDateOfIncident();
+                        break;
+                    case "6":
+                        updatedClaim.DateOfClaim = CollectAndReturnDateOfClaim();
+                        break;
+                    case "9":
+                        finishedUpdating = true;
+                        break;
+                    default:
+                        Console.WriteLine("\nInvalid input.\n" +
+                            "Please enter 1, 2, 3, 4, 5, 6, or 9.\n" +
+                            "Press any key to continue.");
+                        Console.ReadKey();
+                        break;
+                }
+                _repo.UpdateClaim(originalClaim, updatedClaim);
+            }
             helperMethods.ReturnToMenu();
         }
 
-        //helper methods
         public void DisplayOneClaim(Claim claim)
         {
             Console.WriteLine($"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
@@ -196,13 +232,13 @@ namespace _02_Claims_Console
 
         public DateTime CollectAndReturnDateOfIncident()
         {
-            Console.Write("\nEnter date of INCIDENT (yyyy/mm/dd): ");
+            Console.Write("\nEnter date of INCIDENT (mm/dd/yyyy): ");
             return helperMethods.CollectAndReturnDate();
         }
 
         public DateTime CollectAndReturnDateOfClaim()
         {
-            Console.Write("\nEnter date of CLAIM (yyyy/mm/dd): ");
+            Console.Write("\nEnter date of CLAIM (mm/dd/yyyy): ");
             return helperMethods.CollectAndReturnDate();
         }
 

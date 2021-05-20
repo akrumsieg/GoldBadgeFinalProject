@@ -26,9 +26,8 @@ namespace _02_Claims_Repository
         }
 
         //UPDATE
-        public void UpdateClaimByNumber(int claimNum, Claim updatedClaim)
+        public void UpdateClaim(Claim originalClaim, Claim updatedClaim)
         {
-            Claim originalClaim = FindClaimByNumber(claimNum);
             originalClaim.ClaimID = updatedClaim.ClaimID;
             originalClaim.ClaimType = updatedClaim.ClaimType;
             originalClaim.Description = updatedClaim.Description;
