@@ -223,21 +223,21 @@ namespace _02_Claims_Console
                 1,
                 TypeOfClaim.Car,
                 "Crashed into tree at Main St. and 1st St.",
-                8021.12345,
+                8021.12,
                 new DateTime(2021, 01, 01),
                 new DateTime(2021, 02, 01)));
             _repo.AddClaimToQueue(new Claim(
                 2,
                 TypeOfClaim.Home,
                 "Flooded basement",
-                2187637316.00,
+                7316.00,
                 new DateTime(2021, 02, 01),
                 new DateTime(2021, 03, 01)));
             _repo.AddClaimToQueue(new Claim(
                 415,
                 TypeOfClaim.Home,
                 "Tree crashed through roof",
-                4000,
+                43000.00,
                 new DateTime(2021, 05, 01),
                 new DateTime(2021, 05, 02)));
         }

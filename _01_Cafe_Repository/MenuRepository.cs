@@ -27,14 +27,13 @@ namespace _01_Cafe_Repository
 
 
         //UPDATE
-        public void UpdateByNumber(int number, MenuItem updatedItem)
+        public void UpdatedItem(MenuItem originalItem, MenuItem updatedItem)
         {
-            MenuItem itemToUpdate = FindItemByNumber(number);
-            itemToUpdate.Number = updatedItem.Number;
-            itemToUpdate.Name = updatedItem.Name;
-            itemToUpdate.Description = updatedItem.Description;
-            itemToUpdate.Ingredients = updatedItem.Ingredients;
-            itemToUpdate.Price = updatedItem.Price;
+            originalItem.Number = updatedItem.Number;
+            originalItem.Name = updatedItem.Name;
+            originalItem.Description = updatedItem.Description;
+            originalItem.Ingredients = updatedItem.Ingredients;
+            originalItem.Price = updatedItem.Price;
         }
 
         //DELETE

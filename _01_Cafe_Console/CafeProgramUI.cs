@@ -103,14 +103,43 @@ namespace _01_Cafe_Console
                 }
                 else isNull = false;
             }
-            MenuItem updatedItem = new MenuItem();
-            updatedItem.Number = CollectAndReturnNumber();
-            updatedItem.Name = CollectAndReturnName();
-            updatedItem.Description = CollectAndReturnDescription();
-            updatedItem.Ingredients = CollectAndReturnIngredientList();
-            updatedItem.Price = CollectAndReturnPrice();
-            _repo.UpdateByNumber(originalItemNumber, updatedItem);
-            Console.WriteLine("\nItem was updated successfully.");
+            MenuItem originalItem = _repo.FindItemByNumber(originalItemNumber);
+            MenuItem updatedItem = _repo.FindItemByNumber(originalItemNumber);
+            bool finishedUpdating = false;
+            while (!finishedUpdating)
+            {
+                Console.Clear();
+                DisplayItem(originalItem);
+                Console.WriteLine("Choose a piece of information you would like to update: \n" +
+                    "1. Menu item number\n" +
+                    "2. Menu item name\n" +
+                    "3. Menu item description\n" +
+                    "4. Menu item ingredient list\n" +
+                    "5. Menu item price\n" +
+                    "9. No more updates");
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        updatedItem.Number = CollectAndReturnNumber();
+                        break;
+                    case "2":
+                        updatedItem.Name = CollectAndReturnName();
+                        break;
+                    case "3":
+                        updatedItem.Description = CollectAndReturnDescription();
+                        break;
+                    case "4":
+                        updatedItem.Ingredients = CollectAndReturnIngredientList();
+                        break;
+                    case "5":
+                        updatedItem.Price = CollectAndReturnPrice();
+                        break;
+                    case "9":
+                        finishedUpdating = true;
+                        break;
+                }
+                _repo.UpdatedItem(originalItem, updatedItem);
+            }
             helperMethods.ReturnToMenu();
         }
 

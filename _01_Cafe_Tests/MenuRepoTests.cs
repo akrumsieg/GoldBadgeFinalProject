@@ -45,9 +45,9 @@ namespace _01_Cafe_Tests
         }
 
         [TestMethod]
-        public void UpdateByNumber_ShouldReturnUpdatedValue()
+        public void UpdateItem_ShouldReturnUpdatedValue()
         {
-            _repo.UpdateByNumber(1, new MenuItem(
+            _repo.UpdatedItem(_menuItem1, new MenuItem(
                 3,
                 "HAM & CHEESE SANDWICH",
                 "description description lorem ipsum",
