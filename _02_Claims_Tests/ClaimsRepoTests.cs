@@ -56,5 +56,17 @@ namespace _02_Claims_Tests
         {
             Assert.IsTrue(_repo.DequeueNextClaim());
         }
+
+        [TestMethod]
+        public void FindClaimByNumber_ShouldReturnCorrectClaim()
+        {
+            Assert.AreEqual(_repo.FindClaimByNumber(1), _claim1);
+        }
+
+        [TestMethod]
+        public void ReturnQueueCount_ShouldReturnCorrectInt()
+        {
+            Assert.AreEqual(_repo.ReturnQueueCount(), 1);
+        }
     }
 }
