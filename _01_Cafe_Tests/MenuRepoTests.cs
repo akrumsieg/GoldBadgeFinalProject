@@ -61,5 +61,17 @@ namespace _01_Cafe_Tests
         {
             Assert.IsTrue(_repo.DeleteByNumber(1));
         }
+
+        [TestMethod]
+        public void ReturnListCount_ShouldReturnCorrectInt()
+        {
+            Assert.AreEqual(_repo.ReturnListCount(), 1);
+        }
+
+        [TestMethod]
+        public void FindItemByNumber_ShouldReturnCorrectMenuItem()
+        {
+            Assert.AreEqual(_repo.FindItemByNumber(1), _menuItem1);
+        }
     }
 }
